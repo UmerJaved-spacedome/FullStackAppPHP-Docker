@@ -1,0 +1,31 @@
+#version: "3"  Docker Version We're using 3 because every version which is greater than 3 is said as 3  
+services:
+   www:
+    build: .
+    image: umerjaved/fullstackwww:latest
+    volumes:
+      - "./:/var/www/html"     #sync project directory which is / with container's linux web directory which is /var/www/html
+    ports:
+      - 80:80    #First One is the port of local machine and the second one is the port of container 
+      - 443:443  #same stuff as above but this is for SSL 
+   db:
+     image: mysql:latest  
+     environment: 
+       - MYSQL_DATABASE=test_db
+       - MYSQL_USER=umer
+       - MYSQL_PASSWORD=admin123
+       - MYSQL_ALLOW_EMPTY_PASSWORD=1
+     volumes :
+       - "./db:/docker-entrypoint-initdb.d"
+
+   phpmyadmin: 
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8001:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      
+     
+ 
+    
